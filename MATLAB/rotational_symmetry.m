@@ -290,7 +290,6 @@ function [best_val, best_x, best_y] = jaccard_projections(I, P, shift, xc, yc, u
         y0 = floor((size(I{1}, 1) + 1) / 2);
         for i = 1:size(scheme,1)
             add = ones(size(Xt));
-            delta = (scheme{i,1}(1,2) - scheme{i,1}(1,1)) / size(R,2) * 2*pi;
             for j = 1:size(scheme{i,1})
                 alpha = scheme{i,1}(j,1)/size(R,2) * 2*pi;
                 beta  = scheme{i,1}(j,2)/size(R,2) * 2*pi;
@@ -310,8 +309,8 @@ function [best_val, best_x, best_y] = jaccard_projections(I, P, shift, xc, yc, u
                 ax2 = (Xt*(1-cos(beta )) - Yt*sin(beta ))*cos(delta) + (Yt*(1-cos(beta )) + Xt*sin(beta ))*sin(delta);
                 dx = (ax1 - dx1) - (ax2 - dx2);
                 %}
-                dx = (x0-Xt)*(cos(beta+delta) - cos(alpha+delta)) + ...
-                     (y0-Yt)*(sin(beta+delta) - sin(alpha+delta));
+                dx = (x0-Xt)*(cos(beta) - cos(alpha)) + ...
+                     (y0-Yt)*(sin(beta) - sin(alpha));
                 temp = interp1(J(end,1):J(1,end), S, dx);
                 temp(isnan(temp)) = 0;
                 add = min(add, temp);
